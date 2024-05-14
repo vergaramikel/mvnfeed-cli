@@ -103,6 +103,7 @@ def _transfer_single_artifact(name, from_repository, to_repository, stage_dir, t
     else:
         files2transfer = _untyped_artifacts(artifact_fullname, artifact_type, artifact_path, transfer_deps)
 
+    logging.info('files2transfer: %s', files2transfer)
     for file2transfer in files2transfer:
         artifact_relativepath = file2transfer['path'] + '/' + file2transfer['name']
         already_uploaded = _already_uploaded(to_repository, artifact_relativepath)
@@ -192,18 +193,47 @@ def _pom_artifact(artifact_fullname, artifact_path):
 def _java_artifacts(artifact_fullname, artifact_type, artifact_path, transfer_deps):
     return [
         {
-            'name': artifact_fullname + '.' + artifact_type,
+            'name': artifact_fullname + '.module.sha512',
             'path': artifact_path,
-            'target': True
-        },
-        {
-            'name': artifact_fullname + '.pom',
-            'path': artifact_path,
-            'transfer_deps': transfer_deps,
             'target': False
         },
         {
-            'name': artifact_fullname + '-tests.jar',
+            'name': artifact_fullname + '.module.sha256',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.module.md5',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.module.sha1',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.module',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '-sources.jar.sha512',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '-sources.jar.sha256',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '-sources.jar.md5',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '-sources.jar.sha1',
             'path': artifact_path,
             'target': False
         },
@@ -213,7 +243,77 @@ def _java_artifacts(artifact_fullname, artifact_type, artifact_path, transfer_de
             'target': False
         },
         {
+            'name': artifact_fullname + '-javadoc.jar.sha512',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '-javadoc.jar.sha256',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '-javadoc.jar.md5',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '-javadoc.jar.sha1',
+            'path': artifact_path,
+            'target': False
+        },
+        {
             'name': artifact_fullname + '-javadoc.jar',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.pom.sha512',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.pom.sha256',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.pom.md5',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.pom.sha1',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.pom',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.aar.sha512',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.aar.sha256',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.aar.md5',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.aar.sha1',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.aar',
             'path': artifact_path,
             'target': False
         }
@@ -267,6 +367,8 @@ def _download_file(from_repository, path, filename, length=16*1024):
         response = urlopen(request)
         with open(filename, 'wb') as file:
             shutil.copyfileobj(response, file, length)
+            logging.debug('response %s', response)
+            logging.debug('file %s', file)
     except Exception as ex:
         logging.debug('exception while downloading (expected): %s', ex)
         None

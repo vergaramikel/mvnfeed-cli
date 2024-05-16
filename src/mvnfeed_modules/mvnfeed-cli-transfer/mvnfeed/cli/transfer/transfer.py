@@ -316,9 +316,33 @@ def _java_artifacts(artifact_fullname, artifact_type, artifact_path, transfer_de
             'name': artifact_fullname + '.aar',
             'path': artifact_path,
             'target': False
+        },
+        {
+            'name': artifact_fullname + '.jar.sha512',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.jar.sha256',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.jar.md5',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.jar.sha1',
+            'path': artifact_path,
+            'target': False
+        },
+        {
+            'name': artifact_fullname + '.jar',
+            'path': artifact_path,
+            'target': False
         }
     ]
-
 
 def _untyped_artifacts(artifact_fullname, artifact_type, artifact_path, transfer_deps):
     return [
